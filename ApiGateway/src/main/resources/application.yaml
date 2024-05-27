@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8011/eureka/
+server:
+  port: 8012
