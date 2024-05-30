@@ -1,0 +1,26 @@
+jwt:
+  secret: jfxvwfxtuQUX21421FCFyvarvyccXfcjajkl44CUixieZVQIVQ=
+spring:
+  application:
+    name: users-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password: 123
+    url: jdbc:postgresql://localhost:5432/shop_db
+  jpa:
+    hibernate:
+      ddl-auto: update
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8011/eureka/
+  instance:
+    hostname: localhost
+server:
+  port: 0
+springdoc:
+  swagger-ui:
+    path: /users/swagger.html
+  api-docs:
+    path: /users/v3/api-docs
