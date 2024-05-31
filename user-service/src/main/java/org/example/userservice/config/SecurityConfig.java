@@ -41,10 +41,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**",
                                 "/users/v3/**",
-                                "/users/swagger/**")
+                                "/users/swagger-ui/**",
+                                "/users/swagger.html")
                         .permitAll()
                         .anyRequest()
-                        .permitAll())
+                        .authenticated())
                 .authenticationProvider(provider())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

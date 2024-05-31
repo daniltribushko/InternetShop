@@ -53,4 +53,15 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, email, creationDate, updateDate);
     }
+
+    public boolean isAdmin(){
+        boolean isAdmin = false;
+        for (Role role : roles) {
+            if (Objects.equals(role.getName(), "ADMIN")){
+                isAdmin = true;
+                break;
+            }
+        }
+        return isAdmin;
+    }
 }
