@@ -3,6 +3,7 @@ package org.example.userservice.services.imp;
 import org.example.userservice.aspects.annotations.CheckUserAdmin;
 import org.example.userservice.aspects.annotations.CheckUserDontChangeAnotherUser;
 import org.example.userservice.exceptions.roles.RoleAlreadyAddedException;
+import org.example.userservice.exceptions.roles.UserDontHaveRoleException;
 import org.example.userservice.exceptions.users.UserAlreadyExistException;
 import org.example.userservice.models.dto.request.UserRequest;
 import org.example.userservice.models.dto.response.RoleResponse;
@@ -161,7 +162,7 @@ public class UserServiceImp implements UserService {
         user.setUpdateDate(LocalDateTime.now());
 
         if (!roles.contains(roleEntity)) {
-            throw new RoleAlreadyAddedException(userEmail, role);
+            throw new UserDontHaveRoleException(userEmail, role);
         }
 
         roles.remove(roleEntity);
