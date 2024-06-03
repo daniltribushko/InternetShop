@@ -1,5 +1,7 @@
 package org.example.userservice.models.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.example.userservice.models.entities.User;
@@ -18,6 +20,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
     @Schema(description = "User's id",
             name = "id",
