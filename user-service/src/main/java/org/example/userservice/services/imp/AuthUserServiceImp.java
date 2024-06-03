@@ -81,6 +81,12 @@ public class AuthUserServiceImp implements AuthUserService {
         return token;
     }
 
+    @Override
+    public boolean isTokenValid(String token) {
+        String email = jwtTokenUtil.getEmailFromToken(token);
+        return jwtTokenUtil.isTokenValid(token, email);
+    }
+
     private String createCode() {
         String chars = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
         StringBuilder code = new StringBuilder();
