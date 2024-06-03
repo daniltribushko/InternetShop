@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.example.userservice.exceptions.token.TokenNotValidException;
 import org.example.userservice.models.entities.Role;
 import org.example.userservice.models.entities.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,12 +89,18 @@ public class JwtTokenUtil {
     }
 
     private Claims getClaimsFromToken(String token) {
-        return Jwts
-                .parser()
-                .verifyWith(getSecretKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+
+
+            return Jwts
+                    .parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (JwtException e) {
+            throw new TokenNotValidException();
+        }
     }
 
     private SecretKey getSecretKey() {

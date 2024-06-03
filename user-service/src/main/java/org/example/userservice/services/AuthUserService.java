@@ -2,8 +2,10 @@ package org.example.userservice.services;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.example.userservice.models.dto.request.CreateTokenRequest;
+import org.example.userservice.models.dto.response.UserResponse;
 
 /**
  * @author Tribushko Danil
@@ -17,4 +19,7 @@ public interface AuthUserService {
                   String email);
     String getToken(@Valid
                     CreateTokenRequest request);
+    UserResponse findByEmail(String email);
+    boolean isTokenValid(@NotBlank
+                         String token);
 }

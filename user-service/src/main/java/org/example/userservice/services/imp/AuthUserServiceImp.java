@@ -2,6 +2,8 @@ package org.example.userservice.services.imp;
 
 import org.example.userservice.models.AuthRequestStatus;
 import org.example.userservice.models.dto.request.CreateTokenRequest;
+import org.example.userservice.models.dto.response.RoleResponse;
+import org.example.userservice.models.dto.response.UserResponse;
 import org.example.userservice.models.entities.AuthRequest;
 import org.example.userservice.models.entities.Role;
 import org.example.userservice.models.entities.User;
@@ -79,6 +81,25 @@ public class AuthUserServiceImp implements AuthUserService {
         authRequest.setStatus(AuthRequestStatus.COMPLETED);
         authRequestDBService.update(authRequest);
         return token;
+    }
+
+    @Override
+    public boolean isTokenValid(String token) {
+        String email = jwtTokenUtil.getEmailFromToken(token);
+        return jwtTokenUtil.isTokenValid(token, email);
+    }
+
+    @Override
+    public UserResponse findByEmail(String email) {
+        User user = userDBService.findByEmail(email);
+
+        return UserResponse.builder()
+                .email(user.getEmail())
+                .roles(user.getRoles()
+                        .stream()
+                        .map(RoleResponse::mapFromEntity)
+                        .toList())
+                .build();
     }
 
     private String createCode() {

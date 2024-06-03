@@ -16,11 +16,19 @@ import org.example.userservice.exceptions.email.MailDidntSendException;
 import org.example.userservice.models.dto.request.CreateTokenRequest;
 import org.example.userservice.models.dto.response.ExceptionResponse;
 import org.example.userservice.models.dto.response.TokenResponse;
+import org.example.userservice.models.dto.response.TokenValidResponse;
+import org.example.userservice.models.dto.response.UserResponse;
 import org.example.userservice.services.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Tribushko Danil
+ * @since 03.06.2024
+ * <p>
+ * Контроллер для автоизации пользователей
+ */
 @RestController()
 @RequestMapping("/auth")
 @CrossOrigin
@@ -65,7 +73,7 @@ public class AuthRequestController {
             @ApiResponse(responseCode = "404",
                     description = "Auth request with email and status and code not found",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation =  ExceptionResponse.class)))
+                            schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @PostMapping("/confirm")
     public ResponseEntity<TokenResponse> getToken(@Valid
@@ -73,6 +81,37 @@ public class AuthRequestController {
                                                   CreateTokenRequest request) {
         String token = authUserService.getToken(request);
         return ResponseEntity.ok(new TokenResponse(token));
+    }
+
+    @Operation(summary = "Is valid", description = "Check is token valid")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Token is valid",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TokenValidResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Token not valid",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionResponse.class)))
+    })
+    @GetMapping("/valid")
+    public ResponseEntity<TokenValidResponse> isTokenValid(@RequestParam
+                                                           @NotBlank String token) {
+        return ResponseEntity.ok(new TokenValidResponse(authUserService.isTokenValid(token)));
+    }
+
+    @Operation(summary = "Find by email", description = "Find user by email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "404", description = "User by email not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation =
+                                    ExceptionResponse.class)))
+    })
+    @GetMapping()
+    public ResponseEntity<UserResponse> findByEmail(@RequestParam
+                                                    String email) {
+        return ResponseEntity.ok(authUserService.findByEmail(email));
     }
 
 }
