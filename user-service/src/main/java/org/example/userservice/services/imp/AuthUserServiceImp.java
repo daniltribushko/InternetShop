@@ -1,5 +1,6 @@
 package org.example.userservice.services.imp;
 
+import org.example.userservice.exceptions.token.TokenNotValidException;
 import org.example.userservice.models.AuthRequestStatus;
 import org.example.userservice.models.dto.request.CreateTokenRequest;
 import org.example.userservice.models.dto.response.RoleResponse;
@@ -84,9 +85,13 @@ public class AuthUserServiceImp implements AuthUserService {
     }
 
     @Override
-    public boolean isTokenValid(String token) {
+    public String isTokenValid(String token) {
         String email = jwtTokenUtil.getEmailFromToken(token);
-        return jwtTokenUtil.isTokenValid(token, email);
+        if (jwtTokenUtil.isTokenValid(token, email)){
+            return email;
+        } else {
+            throw new TokenNotValidException();
+        }
     }
 
     @Override

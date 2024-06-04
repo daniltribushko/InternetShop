@@ -1,4 +1,4 @@
-package org.example.userservice.models.dto.response;
+package org.example.goods.models.http;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,8 +8,8 @@ import lombok.Setter;
 /**
  * @author Tribushko Danil
  * @since 03.06.2024
- * <p>
- * Dto валидности токена
+ *
+ *
  */
 @Getter
 @Setter

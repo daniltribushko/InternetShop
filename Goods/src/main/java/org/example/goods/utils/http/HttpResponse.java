@@ -1,4 +1,4 @@
-package org.example.userservice.models.dto.response;
+package org.example.goods.utils.http;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,15 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @author Tribushko Danil
+ * @author Tribusko Danil
  * @since 03.06.2024
- * <p>
- * Dto валидности токена
+ *
+ * Класс http ответа
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenValidResponse {
-    private String email;
+public class HttpResponse {
+    private int statusCode;
+    private String response;
 }

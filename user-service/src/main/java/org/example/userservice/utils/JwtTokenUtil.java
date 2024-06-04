@@ -90,8 +90,6 @@ public class JwtTokenUtil {
 
     private Claims getClaimsFromToken(String token) {
         try {
-
-
             return Jwts
                     .parser()
                     .verifyWith(getSecretKey())

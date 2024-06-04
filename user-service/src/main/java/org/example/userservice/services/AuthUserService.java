@@ -20,6 +20,6 @@ public interface AuthUserService {
     String getToken(@Valid
                     CreateTokenRequest request);
     UserResponse findByEmail(String email);
-    boolean isTokenValid(@NotBlank
+    String isTokenValid(@NotBlank
                          String token);
 }
