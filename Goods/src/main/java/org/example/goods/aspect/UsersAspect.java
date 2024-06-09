@@ -23,7 +23,6 @@ public class UsersAspect {
             "args(email,..)", argNames = "email")
     public void checkUserIsAdmin(String email) {
         Authentication user = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(user.getName());
         if (!user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) ||
                 !Objects.equals(email, user.getName())) {
             throw new UserNotAdminException(email);

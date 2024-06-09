@@ -1,5 +1,6 @@
 package org.example.goods.models.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +18,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductCategoryRequest {
+    @Schema(description = "Product category title",
+            name = "title",
+            type = "string",
+            example = "Футболки")
     @NotBlank(message = "Title can not be blank")
     private String title;
+    @Schema(description = "Product category description",
+            name = "description",
+            type = "string",
+            example = "Футболки имеются разных размеров")
     @NotBlank(message = "Description can not be blank")
     private String description;
 }

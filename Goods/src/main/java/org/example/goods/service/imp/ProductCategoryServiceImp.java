@@ -8,6 +8,7 @@ import org.example.goods.models.dto.response.ProductCategoryResponse;
 import org.example.goods.models.entities.ProductCategory;
 import org.example.goods.service.ProductCategoryService;
 import org.example.goods.service.db.ProductCategoryDBService;
+import org.example.goods.utils.http.date.LocalDateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,7 +95,7 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
                             Objects.equals(parentCategoryId, c.getParentCategory().getId()) &&
                                     (maxCategoriesSize == null || (categoriesSize < maxCategoriesSize)) &&
                                     (minCategoriesSize == null || (categoriesSize > minCategoriesSize)) &&
-                                    checkDate(c, creationDate,
+                                    LocalDateTimeUtils.checkDate(c.getCreationDate(), c.getUpdateDate(), creationDate,
                                             updateDate,
                                             minCreationDate,
                                             maxCreationDate,
@@ -111,13 +112,6 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
                                                      Long parentCategoryId,
                                                      String email) {
         ProductCategory productCategory = productCategoryDBService.findById(id);
-        /*Long oldParentCategoryId = productCategory.getParentCategory().getId();
-
-        if (oldParentCategoryId != null){
-            ProductCategory oldParentCategory = productCategoryDBService.findById(oldParentCategoryId);
-            Set<ProductCategory> categoriesFromOldParentCategories = oldParentCategory.getCategories();
-            categoriesFromOldParentCategories.remove(productCategory);
-        }*/
 
         ProductCategory parentCategory = productCategoryDBService.findById(parentCategoryId);
         LocalDateTime now = LocalDateTime.now();
@@ -154,20 +148,5 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
         return ProductCategoryResponse.mapFromEntity(productCategory);
     }
 
-    private boolean checkDate(ProductCategory category, LocalDateTime creationDate,
-                              LocalDateTime updateDate,
-                              LocalDateTime minCreationDate,
-                              LocalDateTime maxCreationDate,
-                              LocalDateTime minUpdateDate,
-                              LocalDateTime maxUpdateDate){
-        LocalDateTime creationDateCategory = category.getCreationDate();
-        LocalDateTime updateDateCategory = category.getUpdateDate();
 
-        return (creationDate == null || Objects.equals(creationDateCategory, creationDate) &&
-                updateDate == null || Objects.equals(updateDateCategory, updateDate) &&
-                (minCreationDate == null || creationDateCategory.isAfter(minCreationDate)) &&
-                (maxCreationDate == null || creationDateCategory.isBefore(maxCreationDate)) &&
-                (minUpdateDate == null || updateDateCategory.isAfter(minUpdateDate)) &&
-                (maxUpdateDate == null || updateDateCategory.isBefore(maxUpdateDate)));
-    }
 }

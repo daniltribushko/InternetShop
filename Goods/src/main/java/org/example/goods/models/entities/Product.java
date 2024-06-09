@@ -33,7 +33,7 @@ public class Product {
     @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "category_id")
     private ProductCategory category;
 

@@ -146,7 +146,7 @@ public class ProductCategoryResponse {
                 .updateDate(productCategory.getUpdateDate())
                 .build();
     }
-    private static ProductCategoryResponse mapFromEntityParentCategory(ProductCategory productCategory) {
+    public static ProductCategoryResponse mapFromEntityParentCategory(ProductCategory productCategory) {
         return ProductCategoryResponse.builder()
                 .id(productCategory.getId())
                 .title(productCategory.getTitle())
