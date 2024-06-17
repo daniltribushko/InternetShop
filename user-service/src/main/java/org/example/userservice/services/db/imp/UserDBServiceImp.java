@@ -1,13 +1,12 @@
 package org.example.userservice.services.db.imp;
 
 import org.example.userservice.exceptions.users.UserAlreadyExistException;
+import org.example.userservice.exceptions.users.UserByEmailNotFoundException;
 import org.example.userservice.exceptions.users.UserByIdNotFoundException;
 import org.example.userservice.models.entities.User;
 import org.example.userservice.repositories.UserRepository;
 import org.example.userservice.services.db.UserDBService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,7 +55,7 @@ public class UserDBServiceImp implements UserDBService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+                .orElseThrow(() -> new UserByEmailNotFoundException(email));
     }
 
     @Override
