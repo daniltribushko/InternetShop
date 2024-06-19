@@ -58,8 +58,9 @@ public class UserServiceImp implements UserService {
     @CheckUserDontChangeAnotherUser
     public UserResponse update(Long id, String email, UserRequest userRequest) {
         User user = userDBService.findById(id);
-        if (userDBService.existByEmail(email)) {
-            throw new UserAlreadyExistException(email);
+        String newEmail = userRequest.getEmail();
+        if (userDBService.existByEmail(newEmail)) {
+            throw new UserAlreadyExistException(newEmail);
         }
         user.setEmail(userRequest.getEmail());
         user.setUpdateDate(LocalDateTime.now());
