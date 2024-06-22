@@ -8,6 +8,6 @@ import org.example.goods.exceptions.GlobalAppException;
  */
 public class ProductCategoryByIdNotFoundException extends GlobalAppException {
     public ProductCategoryByIdNotFoundException(Long id) {
-        super(404, "Product category id " + id + " not found");
+        super(404, "Product category with id " + id + " not found");
     }
 }
