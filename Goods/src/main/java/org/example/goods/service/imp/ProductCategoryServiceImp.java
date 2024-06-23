@@ -147,6 +147,4 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
 
         return ProductCategoryResponse.mapFromEntity(productCategory);
     }
-
-
 }
