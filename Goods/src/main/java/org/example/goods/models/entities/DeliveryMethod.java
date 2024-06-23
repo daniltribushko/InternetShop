@@ -31,6 +31,9 @@ public class DeliveryMethod {
     @Column(nullable = false, name = "update_date")
     private LocalDateTime updateDate;
 
+    public static Builder builder() {
+        return new Builder();
+    }
     public static class Builder {
         private Long id;
         private String title;
