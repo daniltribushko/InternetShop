@@ -114,13 +114,15 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
         ProductCategory productCategory = productCategoryDBService.findById(id);
 
         ProductCategory parentCategory = productCategoryDBService.findById(parentCategoryId);
-        LocalDateTime now = LocalDateTime.now();
 
         productCategory.setParentCategory(parentCategory);
         Set<ProductCategory> categories = parentCategory.getCategories();
         categories.add(productCategory);
         parentCategory.setCategories(categories);
+
+        LocalDateTime now = LocalDateTime.now();
         parentCategory.setUpdateDate(now);
+        productCategory.setUpdateDate(now);
 
         productCategoryDBService.updateProductCategory(productCategory);
 
@@ -138,6 +140,11 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
         Set<ProductCategory> categories = parentCategory.getCategories();
         categories.remove(productCategory);
         parentCategory.setCategories(categories);
+
+        LocalDateTime now = LocalDateTime.now();
+        parentCategory.setUpdateDate(now);
+        productCategory.setUpdateDate(now);
+
         productCategoryDBService.updateProductCategory(parentCategory);
 
         return ProductCategoryResponse.mapFromEntity(productCategory);

@@ -138,6 +138,10 @@ public class ProductServiceImp implements ProductService {
         products.add(product);
         category.setProducts(products);
 
+        LocalDateTime now = LocalDateTime.now();
+        product.setUpdateDate(now);
+        category.setUpdateDate(now);
+
         productDBService.update(product);
 
         return ProductResponse.mapFromEntity(product);
@@ -154,6 +158,9 @@ public class ProductServiceImp implements ProductService {
         products.remove(product);
         category.setProducts(products);
 
+        LocalDateTime now = LocalDateTime.now();
+        product.setUpdateDate(now);
+        category.setUpdateDate(now);
         productDBService.update(product);
 
         return ProductResponse.mapFromEntity(product);

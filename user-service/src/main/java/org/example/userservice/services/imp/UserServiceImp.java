@@ -168,6 +168,7 @@ public class UserServiceImp implements UserService {
 
         roles.remove(roleEntity);
         user.setRoles(roles);
+        user.setUpdateDate(LocalDateTime.now());
         userDBService.updateUser(user);
 
         return UserResponse.builder()

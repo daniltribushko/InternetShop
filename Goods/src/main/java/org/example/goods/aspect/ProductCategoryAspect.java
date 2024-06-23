@@ -4,8 +4,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.example.goods.exceptions.categories.ChildCategoryAlreadyExistInCategoryException;
 import org.example.goods.exceptions.categories.ChildCategoryNotExistInCategoryException;
-import org.example.goods.exceptions.products.ProductAlreadyExistInCategoryException;
-import org.example.goods.exceptions.products.ProductDontExistInProductCategoryException;
 import org.example.goods.models.entities.ProductCategory;
 import org.example.goods.service.db.ProductCategoryDBService;
 import org.springframework.beans.factory.annotation.Autowired;
