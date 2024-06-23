@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -118,5 +119,23 @@ public class ProductCategory {
 
             return productCategory;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductCategory category = (ProductCategory) o;
+        return Objects.equals(id, category.id) &&
+                Objects.equals(title, category.title) &&
+                Objects.equals(description, category.description) &&
+                Objects.equals(parentCategory, category.parentCategory) &&
+                Objects.equals(creationDate, category.creationDate) &&
+                Objects.equals(updateDate, category.updateDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, parentCategory, creationDate, updateDate);
     }
 }

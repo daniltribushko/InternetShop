@@ -32,6 +32,8 @@ public class Product {
     private LocalDateTime creationDate;
     @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
+    @Column(name = "brand", nullable = false)
+    private String brand;
 
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "category_id")
@@ -49,6 +51,7 @@ public class Product {
         private LocalDateTime creationDate;
         private LocalDateTime updateDate;
         private ProductCategory category;
+        private String brand;
 
         public Builder id(Long id) {
             this.id = id;
@@ -85,6 +88,11 @@ public class Product {
             return this;
         }
 
+        public Builder brand(String brand) {
+            this.brand = brand;
+            return this;
+        }
+
         public Product build() {
             Product product = new Product();
 
@@ -95,6 +103,7 @@ public class Product {
             product.creationDate = this.creationDate;
             product.updateDate = this.updateDate;
             product.category = this.category;
+            product.brand = this.brand;
 
             return product;
         }

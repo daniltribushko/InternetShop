@@ -26,6 +26,12 @@ public class CreateProductRequest {
     @NotBlank(message = "Name can not be blank")
     private String name;
 
+    @Schema(description = "Product's brand",
+            name = "brand",
+            type = "string",
+            example = "qwerty")
+    private String brand;
+
     @Schema(description = "Product's description",
             name = "description",
             type = "string",

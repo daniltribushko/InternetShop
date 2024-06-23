@@ -51,7 +51,11 @@ public class ProductResponse {
             name = "category",
             type = "object")
     private ProductCategoryResponse category;
-
+    @Schema(description = "Product's brand",
+            name = "brand",
+            type = "string",
+            example = "qwerty")
+    private String brand;
     @Schema(description = "Product's creation date",
             name = "creationDate",
             type = "string",
@@ -64,16 +68,17 @@ public class ProductResponse {
             format = "date-time")
     private LocalDateTime updateDate;
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
-    public static class Builder{
+    public static class Builder {
         private Long id;
         private String name;
         private String description;
         private Integer price;
         private ProductCategoryResponse category;
+        private String brand;
         private LocalDateTime creationDate;
         private LocalDateTime updateDate;
 
@@ -112,7 +117,12 @@ public class ProductResponse {
             return this;
         }
 
-        public ProductResponse build(){
+        public Builder brand(String brand) {
+            this.brand = brand;
+            return this;
+        }
+
+        public ProductResponse build() {
             ProductResponse productResponse = new ProductResponse();
 
             productResponse.id = this.id;
@@ -122,18 +132,20 @@ public class ProductResponse {
             productResponse.category = this.category;
             productResponse.creationDate = this.creationDate;
             productResponse.updateDate = this.updateDate;
+            productResponse.brand = this.brand;
 
             return productResponse;
         }
     }
 
-    public static ProductResponse mapFromEntity(Product product){
+    public static ProductResponse mapFromEntity(Product product) {
         ProductCategory category = product.getCategory();
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
+                .brand(product.getBrand())
                 .category(category != null ?
                         ProductCategoryResponse.mapFromEntityParentCategory(category) : null)
                 .creationDate(product.getCreationDate())

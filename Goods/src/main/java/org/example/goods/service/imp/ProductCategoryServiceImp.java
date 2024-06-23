@@ -134,11 +134,6 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
                                                         String email) {
         ProductCategory productCategory = productCategoryDBService.findById(id);
         ProductCategory parentCategory = productCategoryDBService.findById(parentCategoryId);
-
-        if (!Objects.equals(parentCategory.getId(), productCategory.getParentCategory().getId())) {
-            throw new ChildCategoryNotExistInCategoryException(id, parentCategoryId);
-        }
-
         productCategory.setParentCategory(null);
         Set<ProductCategory> categories = parentCategory.getCategories();
         categories.remove(productCategory);

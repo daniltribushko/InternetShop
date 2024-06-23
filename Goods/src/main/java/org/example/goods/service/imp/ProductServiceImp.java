@@ -1,5 +1,6 @@
 package org.example.goods.service.imp;
 
+import org.example.goods.aspect.annotation.CheckUserBrand;
 import org.example.goods.models.dto.request.CreateProductRequest;
 import org.example.goods.models.dto.request.UpdateProductRequest;
 import org.example.goods.models.dto.response.ProductResponse;
@@ -36,6 +37,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @CheckUserBrand
     public ProductResponse create(String email, CreateProductRequest request) {
         ProductCategory category = productCategoryDBService.findById(request.getCategoryId());
         LocalDateTime now = LocalDateTime.now();
@@ -45,6 +47,7 @@ public class ProductServiceImp implements ProductService {
                 .price(request.getPrice())
                 .category(category)
                 .creationDate(now)
+                .brand(request.getBrand())
                 .updateDate(now)
                 .build();
 
@@ -57,6 +60,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @CheckUserBrand
     public ProductResponse update(String email, Long id, UpdateProductRequest request) {
         Product product = productDBService.findById(id);
         String name = request.getName();
@@ -124,6 +128,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @CheckUserBrand
     public ProductResponse setCategory(Long id, Long categoryId, String email) {
         Product product = productDBService.findById(id);
         ProductCategory category = productCategoryDBService.findById(categoryId);
@@ -139,6 +144,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @CheckUserBrand
     public ProductResponse deleteCategory(Long id, Long categoryId, String email) {
         Product product = productDBService.findById(id);
         ProductCategory category = productCategoryDBService.findById(categoryId);
@@ -152,5 +158,4 @@ public class ProductServiceImp implements ProductService {
 
         return ProductResponse.mapFromEntity(product);
     }
-
 }
