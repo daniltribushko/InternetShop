@@ -7,7 +7,7 @@ import org.example.goods.models.dto.response.DeliveryMethodResponse;
 import org.example.goods.models.entities.DeliveryMethod;
 import org.example.goods.service.DeliveryMethodService;
 import org.example.goods.service.db.DeliveryMethodDBService;
-import org.example.goods.utils.http.date.LocalDateTimeUtils;
+import org.example.goods.utils.date.LocalDateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

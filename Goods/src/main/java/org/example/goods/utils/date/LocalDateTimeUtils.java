@@ -1,4 +1,4 @@
-package org.example.goods.utils.http.date;
+package org.example.goods.utils.date;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

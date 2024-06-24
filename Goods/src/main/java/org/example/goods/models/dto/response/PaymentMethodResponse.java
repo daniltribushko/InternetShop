@@ -1,37 +1,34 @@
-package org.example.goods.models.entities;
+package org.example.goods.models.dto.response;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.goods.models.entities.PaymentMethod;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 /**
  * @author Tribushko Danil
- * @since 23.06.2024
+ * @since 24.06.2024
  * <p>
- * Сущность метода доставки
+ * Dto способа оплаты
  */
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "payments_methods")
-public class PaymentMethod {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Component
+public class PaymentMethodResponse {
     private Long id;
-    @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "description", nullable = false)
     private String description;
-    @Column(name = "icon")
     private String icon;
-    @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
-    @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDate;
+    private static final String iconPath = "icons/";
 
     public static Builder builder() {
         return new Builder();
@@ -75,16 +72,26 @@ public class PaymentMethod {
             return this;
         }
 
-        public PaymentMethod build() {
-            PaymentMethod paymentMethod = new PaymentMethod();
-            paymentMethod.id = this.id;
-            paymentMethod.title = this.title;
-            paymentMethod.description = this.description;
-            paymentMethod.icon = this.icon;
-            paymentMethod.creationDate = this.creationDate;
-            paymentMethod.updateDate = this.updateDate;
-
-            return paymentMethod;
+        public PaymentMethodResponse build() {
+            PaymentMethodResponse response = new PaymentMethodResponse();
+            response.id = this.id;
+            response.title = this.title;
+            response.description = this.description;
+            response.icon = this.icon;
+            response.creationDate = this.creationDate;
+            response.updateDate = this.updateDate;
+            return response;
         }
+    }
+
+    public static PaymentMethodResponse mapFromEntity(PaymentMethod paymentMethod) {
+        return PaymentMethodResponse.builder()
+                .id(paymentMethod.getId())
+                .title(paymentMethod.getTitle())
+                .description(paymentMethod.getDescription())
+                .icon(iconPath + paymentMethod.getIcon())
+                .creationDate(paymentMethod.getCreationDate())
+                .updateDate(paymentMethod.getUpdateDate())
+                .build();
     }
 }

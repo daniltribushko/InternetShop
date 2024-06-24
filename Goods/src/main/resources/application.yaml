@@ -26,3 +26,7 @@ api:
   paths:
     gateway:
       http://localhost:8012
+methods:
+  deliveries:
+    icon-path:
+      icons/
