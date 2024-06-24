@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: goods-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password: 123
+    url: jdbc:postgresql://localhost:5432/shop_db
+  jpa:
+    hibernate:
+      ddl-auto: update
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8011/eureka/
+  instance:
+    hostname: localhost
+server:
+  port: 0
+springdoc:
+  swagger-ui:
+    path: /goods/swagger.html
+  api-docs:
+    path: /goods/v3/api-docs
+api:
+  paths:
+    gateway:
+      http://localhost:8012
+methods:
+  deliveries:
+    icon-path:
+      icons
