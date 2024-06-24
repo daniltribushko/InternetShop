@@ -4,6 +4,7 @@ import org.example.userservice.models.entities.Role;
 import org.example.userservice.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * <p>
  * Класс для заполнения ролей в бд, при запуске приложения
  */
+@Order(1)
 @Component
 public class RoleCommandLineRunner implements CommandLineRunner {
     private final RoleRepository roleRepository;

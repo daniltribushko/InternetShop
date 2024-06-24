@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
-    boolean existByTitle(String title);
+    boolean existsByTitle(String title);
 }
