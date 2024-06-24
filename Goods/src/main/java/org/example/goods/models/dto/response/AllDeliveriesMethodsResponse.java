@@ -18,5 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AllDeliveriesMethodsResponse {
+    private long total;
+    private int page;
+    private int per_page;
     private List<DeliveryMethodResponse> deliveryMethods;
 }

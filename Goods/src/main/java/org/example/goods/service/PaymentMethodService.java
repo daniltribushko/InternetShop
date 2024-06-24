@@ -42,7 +42,9 @@ public interface PaymentMethodService {
                 @Min(value = 1, message = "Id can not be less than 1")
                 Long id);
 
-    AllPaymentMethodResponse findAll(LocalDateTime creationDate,
+    AllPaymentMethodResponse findAll(int page,
+                                     int per_page,
+                                     LocalDateTime creationDate,
                                      LocalDateTime updateDate,
                                      LocalDateTime minCreationDate,
                                      LocalDateTime maxCreationDate,

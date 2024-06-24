@@ -133,11 +133,13 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Products found",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProductResponse.class)))
+                            schema = @Schema(implementation = AllProductsResponse.class)))
     })
     @GetMapping("/all")
     @Secured("ROLE_USER")
-    public ResponseEntity<AllProductsResponse> findAll(@RequestParam(required = false)
+    public ResponseEntity<AllProductsResponse> findAll(int page,
+                                                       int per_page,
+                                                       @RequestParam(required = false)
                                                        @Schema(description = "Product's category id",
                                                                name = "categoryId",
                                                                type = "integer",
@@ -192,7 +194,7 @@ public class ProductController {
                                                                format = "date-time")
                                                        @RequestParam(required = false)
                                                        LocalDateTime maxUpdateDate) {
-        return ResponseEntity.ok(new AllProductsResponse(productService.findAll(categoryId,
+        return ResponseEntity.ok(productService.findAll(page, per_page, categoryId,
                 minPrice,
                 maxPrice,
                 creationDate,
@@ -200,7 +202,7 @@ public class ProductController {
                 minCreationDate,
                 maxCreationDate,
                 minUpdateDate,
-                maxUpdateDate)));
+                maxUpdateDate));
     }
 
     @Operation(summary = "Set category", description = "Set product category to product")

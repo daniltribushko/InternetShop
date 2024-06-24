@@ -129,29 +129,30 @@ public class ProductCategoryController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product categories found",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProductCategoryResponse.class)))
+                            schema = @Schema(implementation = AllProductCategoriesResponse.class)))
     })
     @GetMapping("/all")
-    public ResponseEntity<AllProductCategoriesResponse> findAll(
-            @RequestParam(required = false)
-            Long parentId,
-            @RequestParam(required = false)
-            Integer minCategoriesSize,
-            @RequestParam(required = false)
-            Integer maxCategoriesSize,
-            @RequestParam(required = false)
-            LocalDateTime creationDate,
-            @RequestParam(required = false)
-            LocalDateTime updateDate,
-            @RequestParam(required = false)
-            LocalDateTime minCreationDate,
-            @RequestParam(required = false)
-            LocalDateTime maxCreationDate,
-            @RequestParam(required = false)
-            LocalDateTime minUpdateDate,
-            @RequestParam(required = false)
-            LocalDateTime maxUpdateDate) {
-        return ResponseEntity.ok(new AllProductCategoriesResponse(productCategoryService.findAll(parentId,
+    public ResponseEntity<AllProductCategoriesResponse> findAll(int page,
+                                                                int per_page,
+                                                                @RequestParam(required = false)
+                                                                Long parentId,
+                                                                @RequestParam(required = false)
+                                                                Integer minCategoriesSize,
+                                                                @RequestParam(required = false)
+                                                                Integer maxCategoriesSize,
+                                                                @RequestParam(required = false)
+                                                                LocalDateTime creationDate,
+                                                                @RequestParam(required = false)
+                                                                LocalDateTime updateDate,
+                                                                @RequestParam(required = false)
+                                                                LocalDateTime minCreationDate,
+                                                                @RequestParam(required = false)
+                                                                LocalDateTime maxCreationDate,
+                                                                @RequestParam(required = false)
+                                                                LocalDateTime minUpdateDate,
+                                                                @RequestParam(required = false)
+                                                                LocalDateTime maxUpdateDate) {
+        return ResponseEntity.ok(productCategoryService.findAll(page, per_page, parentId,
                 minCategoriesSize,
                 maxCategoriesSize,
                 creationDate,
@@ -159,7 +160,7 @@ public class ProductCategoryController {
                 minCreationDate,
                 maxCreationDate,
                 minUpdateDate,
-                maxUpdateDate)));
+                maxUpdateDate));
     }
 
     @Operation(summary = "Set parent product category",
@@ -203,12 +204,12 @@ public class ProductCategoryController {
     })
     @PatchMapping("/{id}/parent/{parentCategoryId}/delete")
     public ResponseEntity<ProductCategoryResponse> deletePatentProductCategory(@PathVariable
-                                                                            @Min(value = 1, message = "Id can not be less than 1")
-                                                                            Long id,
-                                                                            @PathVariable
-                                                                            @Min(value = 1, message = "Parent category id can not be less than 1")
-                                                                            Long parentCategoryId,
-                                                                            Principal principal) {
+                                                                               @Min(value = 1, message = "Id can not be less than 1")
+                                                                               Long id,
+                                                                               @PathVariable
+                                                                               @Min(value = 1, message = "Parent category id can not be less than 1")
+                                                                               Long parentCategoryId,
+                                                                               Principal principal) {
         return ResponseEntity.ok(productCategoryService.deleteParentCategory(id,
                 parentCategoryId,
                 principal.getName()));

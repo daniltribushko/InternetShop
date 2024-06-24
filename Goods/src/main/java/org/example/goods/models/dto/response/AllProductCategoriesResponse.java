@@ -19,6 +19,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AllProductCategoriesResponse {
+    private long total;
+    private int page;
+    private int per_page;
     @Schema(description = "List of product categories",
             name = "categories")
     private List<ProductCategoryResponse> categories;

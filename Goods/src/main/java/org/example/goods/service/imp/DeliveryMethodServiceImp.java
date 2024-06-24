@@ -9,6 +9,9 @@ import org.example.goods.service.DeliveryMethodService;
 import org.example.goods.service.db.DeliveryMethodDBService;
 import org.example.goods.utils.date.LocalDateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -83,13 +86,19 @@ public class DeliveryMethodServiceImp implements DeliveryMethodService {
     }
 
     @Override
-    public AllDeliveriesMethodsResponse findAll(LocalDateTime creationDate,
+    public AllDeliveriesMethodsResponse findAll(int page,
+                                                int per_page,
+                                                LocalDateTime creationDate,
                                                 LocalDateTime updateDate,
                                                 LocalDateTime minCreationDate,
                                                 LocalDateTime maxCreationDate,
                                                 LocalDateTime minUpdateDate,
                                                 LocalDateTime maxUpdateDate) {
-        return new AllDeliveriesMethodsResponse(deliveryMethodDBService.findAll()
+        Page<DeliveryMethod> methods = deliveryMethodDBService.findAll(PageRequest.of(page, per_page));
+        return new AllDeliveriesMethodsResponse(methods.getTotalElements(),
+                page,
+                per_page,
+                methods
                 .stream()
                 .filter(o -> (LocalDateTimeUtils.checkDate(o.getCreationDate(),
                         o.getUpdateDate(),

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.example.goods.models.dto.request.PaymentMethodRequest;
+import org.example.goods.models.dto.response.AllPaymentMethodResponse;
 import org.example.goods.models.dto.response.PaymentMethodResponse;
 import org.example.goods.models.http.ExceptionResponse;
 import org.example.goods.service.PaymentMethodService;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 /**
  * @author Tribushko Danil
@@ -156,5 +158,29 @@ public class PaymentMethodController {
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         String.format("attachment; filename=\"%s\"", file.getFilename()))
                 .body(file);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<AllPaymentMethodResponse> findAll(int page,
+                                                            int per_page,
+                                                            @RequestParam(required = false)
+                                                            LocalDateTime creationDate,
+                                                            @RequestParam(required = false)
+                                                            LocalDateTime updateDate,
+                                                            @RequestParam(required = false)
+                                                            LocalDateTime minCreationDate,
+                                                            @RequestParam(required = false)
+                                                            LocalDateTime maxCreationDate,
+                                                            @RequestParam(required = false)
+                                                            LocalDateTime minUpdateDate,
+                                                            @RequestParam(required = false)
+                                                            LocalDateTime maxUpdateDate){
+        return ResponseEntity.ok(paymentMethodService.findAll(page, per_page,
+                creationDate,
+                updateDate,
+                minCreationDate,
+                maxCreationDate,
+                minUpdateDate,
+                maxUpdateDate));
     }
 }

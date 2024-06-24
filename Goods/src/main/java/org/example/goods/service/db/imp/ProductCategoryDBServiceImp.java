@@ -3,9 +3,13 @@ package org.example.goods.service.db.imp;
 import org.example.goods.exceptions.categories.ProductCategoryAlreadyExistException;
 import org.example.goods.exceptions.categories.ProductCategoryByIdNotFoundException;
 import org.example.goods.models.entities.ProductCategory;
+import org.example.goods.repositories.ProductCategoryPaginationRepository;
 import org.example.goods.repositories.ProductCategoryRepository;
+import org.example.goods.repositories.ProductPaginationRepository;
 import org.example.goods.service.db.ProductCategoryDBService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +24,13 @@ import java.util.Set;
 @Service
 public class ProductCategoryDBServiceImp implements ProductCategoryDBService {
     private final ProductCategoryRepository productCategoryRepository;
+    private final ProductCategoryPaginationRepository productCategoryPaginationRepository;
 
     @Autowired
-    public ProductCategoryDBServiceImp(ProductCategoryRepository productCategoryRepository) {
+    public ProductCategoryDBServiceImp(ProductCategoryRepository productCategoryRepository,
+                                       ProductCategoryPaginationRepository productCategoryPaginationRepository) {
         this.productCategoryRepository = productCategoryRepository;
+        this.productCategoryPaginationRepository = productCategoryPaginationRepository;
     }
 
 
@@ -55,8 +62,8 @@ public class ProductCategoryDBServiceImp implements ProductCategoryDBService {
     }
 
     @Override
-    public List<ProductCategory> findAll() {
-        return productCategoryRepository.findAll();
+    public Page<ProductCategory> findAll(Pageable pageable) {
+        return productCategoryPaginationRepository.findAll(pageable);
     }
 
     @Override

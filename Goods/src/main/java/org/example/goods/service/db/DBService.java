@@ -1,6 +1,7 @@
 package org.example.goods.service.db;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Tribushko Danil
@@ -29,7 +30,7 @@ public interface DBService<T, ID> {
      *
      * @return список сущностей из бд
      */
-    List<T> findAll();
+    Page<T> findAll(Pageable pageable);
 
     /**
      * Удаление сущности из бд

@@ -13,6 +13,8 @@ import org.example.goods.utils.files.FilesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,10 +62,10 @@ public class PaymentMethodServiceImp implements PaymentMethodService {
         String description = paymentMethodRequest.getDescription();
 
         LocalDateTime now = LocalDateTime.now();
-        if (title != null){
+        if (title != null) {
             paymentMethod.setTitle(title);
         }
-        if (description != null){
+        if (description != null) {
             paymentMethod.setDescription(description);
         }
 
@@ -80,14 +82,19 @@ public class PaymentMethodServiceImp implements PaymentMethodService {
     }
 
     @Override
-    public AllPaymentMethodResponse findAll(LocalDateTime creationDate,
+    public AllPaymentMethodResponse findAll(int page,
+                                            int per_page,
+                                            LocalDateTime creationDate,
                                             LocalDateTime updateDate,
                                             LocalDateTime minCreationDate,
                                             LocalDateTime maxCreationDate,
                                             LocalDateTime minUpdateDate,
                                             LocalDateTime maxUpdateDate) {
-        return new AllPaymentMethodResponse(
-                paymentMethodDBService.findAll()
+        Page<PaymentMethod> methods = paymentMethodDBService.findAll(PageRequest.of(page, per_page));
+        return new AllPaymentMethodResponse(methods.getTotalElements(),
+                page,
+                per_page,
+                methods
                         .stream()
                         .filter(o -> LocalDateTimeUtils.checkDate(o.getCreationDate(),
                                 o.getUpdateDate(),

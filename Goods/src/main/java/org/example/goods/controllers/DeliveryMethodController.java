@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.example.goods.models.dto.request.DeliveryMethodRequest;
+import org.example.goods.models.dto.response.AllDeliveriesMethodsResponse;
 import org.example.goods.models.dto.response.DeliveryMethodResponse;
 import org.example.goods.models.http.ExceptionResponse;
 import org.example.goods.service.DeliveryMethodService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 
 /**
@@ -131,5 +133,27 @@ public class DeliveryMethodController {
                 .build();
     }
 
-
+    @GetMapping("/all")
+    public ResponseEntity<AllDeliveriesMethodsResponse> findAll(int page,
+                                                                int per_page,
+                                                                @RequestParam(required = false)
+                                                            LocalDateTime creationDate,
+                                                                @RequestParam(required = false)
+                                                            LocalDateTime updateDate,
+                                                                @RequestParam(required = false)
+                                                            LocalDateTime minCreationDate,
+                                                                @RequestParam(required = false)
+                                                            LocalDateTime maxCreationDate,
+                                                                @RequestParam(required = false)
+                                                            LocalDateTime minUpdateDate,
+                                                                @RequestParam(required = false)
+                                                            LocalDateTime maxUpdateDate){
+        return ResponseEntity.ok(deliveryMethodService.findAll(page, per_page,
+                creationDate,
+                updateDate,
+                minCreationDate,
+                maxCreationDate,
+                minUpdateDate,
+                maxUpdateDate));
+    }
 }

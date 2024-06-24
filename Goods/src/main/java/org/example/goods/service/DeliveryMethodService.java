@@ -43,7 +43,9 @@ public interface DeliveryMethodService {
                 @Min(value = 1, message = "Id can not be less than 1")
                 Long id);
 
-    AllDeliveriesMethodsResponse findAll(LocalDateTime creationDate,
+    AllDeliveriesMethodsResponse findAll(int page,
+                                         int per_page,
+                                         LocalDateTime creationDate,
                                          LocalDateTime updateDate,
                                          LocalDateTime minCreationDate,
                                          LocalDateTime maxCreationDate,

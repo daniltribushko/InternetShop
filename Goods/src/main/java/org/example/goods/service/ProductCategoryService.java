@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import org.example.goods.models.dto.request.ProductCategoryRequest;
 import org.example.goods.models.dto.request.UpdateProductCategoryRequest;
+import org.example.goods.models.dto.response.AllProductCategoriesResponse;
 import org.example.goods.models.dto.response.ProductCategoryResponse;
 
 import java.time.LocalDateTime;
@@ -40,15 +41,17 @@ public interface ProductCategoryService {
     ProductCategoryResponse findById(@Min(value = 1, message = "Id can not be less than 1")
                                      Long id);
 
-    List<ProductCategoryResponse> findAll(Long parentCategoryId,
-                                          Integer minCategoriesSize,
-                                          Integer maxCategoriesSize,
-                                          LocalDateTime creationDate,
-                                          LocalDateTime updateDate,
-                                          LocalDateTime minCreationDate,
-                                          LocalDateTime maxCreationDate,
-                                          LocalDateTime minUpdateDate,
-                                          LocalDateTime maxUpdateDate);
+    AllProductCategoriesResponse findAll(int page,
+                                         int per_page,
+                                         Long parentCategoryId,
+                                         Integer minCategoriesSize,
+                                         Integer maxCategoriesSize,
+                                         LocalDateTime creationDate,
+                                         LocalDateTime updateDate,
+                                         LocalDateTime minCreationDate,
+                                         LocalDateTime maxCreationDate,
+                                         LocalDateTime minUpdateDate,
+                                         LocalDateTime maxUpdateDate);
 
     ProductCategoryResponse setParentCategory(@Min(value = 1, message = "Id can not be less than 1")
                                               Long id,

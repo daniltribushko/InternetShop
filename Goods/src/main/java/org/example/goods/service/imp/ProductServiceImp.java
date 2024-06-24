@@ -3,6 +3,7 @@ package org.example.goods.service.imp;
 import org.example.goods.aspect.annotation.CheckUserBrand;
 import org.example.goods.models.dto.request.CreateProductRequest;
 import org.example.goods.models.dto.request.UpdateProductRequest;
+import org.example.goods.models.dto.response.AllProductsResponse;
 import org.example.goods.models.dto.response.ProductResponse;
 import org.example.goods.models.entities.Product;
 import org.example.goods.models.entities.ProductCategory;
@@ -11,6 +12,8 @@ import org.example.goods.service.db.ProductCategoryDBService;
 import org.example.goods.service.db.ProductDBService;
 import org.example.goods.utils.date.LocalDateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -97,17 +100,20 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> findAll(Long categoryId,
-                                         Integer minPrice,
-                                         Integer maxPrice,
-                                         LocalDateTime creationDate,
-                                         LocalDateTime updateDate,
-                                         LocalDateTime minCreationDate,
-                                         LocalDateTime maxCreationDate,
-                                         LocalDateTime minUpdateDate,
-                                         LocalDateTime maxUpdateDate) {
-        return productDBService.findAll()
-                .stream()
+    public AllProductsResponse findAll(int page,
+                                       int per_page,
+                                       Long categoryId,
+                                       Integer minPrice,
+                                       Integer maxPrice,
+                                       LocalDateTime creationDate,
+                                       LocalDateTime updateDate,
+                                       LocalDateTime minCreationDate,
+                                       LocalDateTime maxCreationDate,
+                                       LocalDateTime minUpdateDate,
+                                       LocalDateTime maxUpdateDate) {
+        Page<Product> products = productDBService.findAll(PageRequest.of(page, per_page));
+        return new AllProductsResponse(products.getTotalPages(), page, per_page,
+                products.stream()
                 .filter(p -> {
                     ProductCategory category = p.getCategory();
                     return (categoryId == null || category == null ||
@@ -124,7 +130,7 @@ public class ProductServiceImp implements ProductService {
                                 maxUpdateDate);
                 })
                 .map(ProductResponse::mapFromEntity)
-                .toList();
+                .toList());
     }
 
     @Override

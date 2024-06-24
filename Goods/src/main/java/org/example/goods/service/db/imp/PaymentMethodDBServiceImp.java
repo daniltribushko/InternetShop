@@ -3,11 +3,14 @@ package org.example.goods.service.db.imp;
 import org.example.goods.exceptions.payments.PaymentMethodAlreadyExistException;
 import org.example.goods.exceptions.payments.PaymentMethodByIdNotFoundException;
 import org.example.goods.models.entities.PaymentMethod;
+import org.example.goods.repositories.PaymentMethodPaginationRepository;
 import org.example.goods.repositories.PaymentMethodRepository;
 import org.example.goods.service.db.PaymentMethodDBService;
 import org.example.goods.utils.files.FilesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +24,15 @@ import java.util.List;
 @Service
 public class PaymentMethodDBServiceImp implements PaymentMethodDBService {
     private final PaymentMethodRepository paymentMethodRepository;
+    private final PaymentMethodPaginationRepository paymentMethodPaginationRepository;
+
     @Value("${methods.deliveries.icon-path}")
     private String iconPath;
     @Autowired
-    public PaymentMethodDBServiceImp(PaymentMethodRepository paymentMethodRepository) {
+    public PaymentMethodDBServiceImp(PaymentMethodRepository paymentMethodRepository,
+                                     PaymentMethodPaginationRepository paymentMethodPaginationRepository) {
         this.paymentMethodRepository = paymentMethodRepository;
+        this.paymentMethodPaginationRepository = paymentMethodPaginationRepository;
     }
 
     @Override
@@ -54,8 +61,8 @@ public class PaymentMethodDBServiceImp implements PaymentMethodDBService {
     }
 
     @Override
-    public List<PaymentMethod> findAll() {
-        return paymentMethodRepository.findAll();
+    public Page<PaymentMethod> findAll(Pageable pageable) {
+        return paymentMethodPaginationRepository.findAll(pageable);
     }
 
     @Override

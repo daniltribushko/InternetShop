@@ -3,12 +3,16 @@ package org.example.goods.service.imp;
 import org.example.goods.aspect.annotation.CheckUserAdmin;
 import org.example.goods.models.dto.request.ProductCategoryRequest;
 import org.example.goods.models.dto.request.UpdateProductCategoryRequest;
+import org.example.goods.models.dto.response.AllProductCategoriesResponse;
+import org.example.goods.models.dto.response.AllProductsResponse;
 import org.example.goods.models.dto.response.ProductCategoryResponse;
 import org.example.goods.models.entities.ProductCategory;
 import org.example.goods.service.ProductCategoryService;
 import org.example.goods.service.db.ProductCategoryDBService;
 import org.example.goods.utils.date.LocalDateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -77,18 +81,20 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
     }
 
     @Override
-    public List<ProductCategoryResponse> findAll(Long parentCategoryId,
-                                                 Integer minCategoriesSize,
-                                                 Integer maxCategoriesSize,
-                                                 LocalDateTime creationDate,
-                                                 LocalDateTime updateDate,
-                                                 LocalDateTime minCreationDate,
-                                                 LocalDateTime maxCreationDate,
-                                                 LocalDateTime minUpdateDate,
-                                                 LocalDateTime maxUpdateDate) {
-        return productCategoryDBService.findAll()
-                .stream()
-                .filter(c -> {
+    public AllProductCategoriesResponse findAll(int page,
+                                                         int per_page,
+                                                         Long parentCategoryId,
+                                                         Integer minCategoriesSize,
+                                                         Integer maxCategoriesSize,
+                                                         LocalDateTime creationDate,
+                                                         LocalDateTime updateDate,
+                                                         LocalDateTime minCreationDate,
+                                                         LocalDateTime maxCreationDate,
+                                                         LocalDateTime minUpdateDate,
+                                                         LocalDateTime maxUpdateDate) {
+        Page<ProductCategory> products = productCategoryDBService.findAll(PageRequest.of(page, per_page));
+        return new AllProductCategoriesResponse(products.getTotalPages(),page, per_page,
+                products.stream().filter(c -> {
                     int categoriesSize = c.getCategories().isEmpty() ? 0 : c.getCategories().size();
                     return parentCategoryId == null ||
                             Objects.equals(parentCategoryId, c.getParentCategory().getId()) &&
@@ -102,7 +108,7 @@ public class ProductCategoryServiceImp implements ProductCategoryService {
                                             maxUpdateDate);
                 })
                 .map(ProductCategoryResponse::mapFromEntity)
-                .toList();
+                .toList());
     }
 
     @Override

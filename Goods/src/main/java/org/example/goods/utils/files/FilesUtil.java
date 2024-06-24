@@ -22,7 +22,7 @@ import java.nio.file.StandardCopyOption;
  * Утилитный класс для работы с файлами
  */
 public class FilesUtil {
-    private static final String filesPath = "src\\main\\resources\\files\\";
+    private static final String filesPath = "Goods/src/main/resources/files/";
 
     public static void saveFile(String fileName, String path, MultipartFile file) {
         try {

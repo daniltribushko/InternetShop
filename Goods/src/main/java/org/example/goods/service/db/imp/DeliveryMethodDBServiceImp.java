@@ -3,12 +3,13 @@ package org.example.goods.service.db.imp;
 import org.example.goods.exceptions.deliveries.DeliveryMethodAlreadyExistException;
 import org.example.goods.exceptions.deliveries.DeliveryMethodByIdNotFoundException;
 import org.example.goods.models.entities.DeliveryMethod;
+import org.example.goods.repositories.DeliveryMethodRPaginationRepository;
 import org.example.goods.repositories.DeliveryMethodRepository;
 import org.example.goods.service.db.DeliveryMethodDBService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author Tribushko Danil
@@ -19,10 +20,13 @@ import java.util.List;
 @Service
 public class DeliveryMethodDBServiceImp implements DeliveryMethodDBService {
     private final DeliveryMethodRepository deliveryMethodRepository;
+    private final DeliveryMethodRPaginationRepository paginationRepository;
 
     @Autowired
-    public DeliveryMethodDBServiceImp(DeliveryMethodRepository deliveryMethodRepository) {
+    public DeliveryMethodDBServiceImp(DeliveryMethodRepository deliveryMethodRepository,
+                                      DeliveryMethodRPaginationRepository paginationRepository) {
         this.deliveryMethodRepository = deliveryMethodRepository;
+        this.paginationRepository = paginationRepository;
     }
 
     @Override
@@ -51,8 +55,8 @@ public class DeliveryMethodDBServiceImp implements DeliveryMethodDBService {
     }
 
     @Override
-    public List<DeliveryMethod> findAll() {
-        return deliveryMethodRepository.findAll();
+    public Page<DeliveryMethod> findAll(Pageable pageable) {
+        return paginationRepository.findAll(pageable);
     }
 
     @Override

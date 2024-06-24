@@ -4,9 +4,13 @@ import org.example.goods.exceptions.products.ProductAlreadyExistException;
 import org.example.goods.exceptions.products.ProductByIdNotFoundException;
 import org.example.goods.models.entities.Product;
 import org.example.goods.models.entities.ProductCategory;
+import org.example.goods.repositories.ProductPaginationRepository;
 import org.example.goods.repositories.ProductRepository;
 import org.example.goods.service.db.ProductDBService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +25,13 @@ import java.util.Set;
 @Service
 public class ProductDBServiceImp implements ProductDBService {
     private final ProductRepository productRepository;
+    private final ProductPaginationRepository productPaginationRepository;
 
     @Autowired
-    public ProductDBServiceImp(ProductRepository productRepository) {
+    public ProductDBServiceImp(ProductRepository productRepository,
+                               ProductPaginationRepository productPaginationRepository) {
         this.productRepository = productRepository;
+        this.productPaginationRepository = productPaginationRepository;
     }
 
     @Override
@@ -56,8 +63,8 @@ public class ProductDBServiceImp implements ProductDBService {
     }
 
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override

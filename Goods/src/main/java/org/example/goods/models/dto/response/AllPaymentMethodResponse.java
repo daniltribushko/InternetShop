@@ -18,5 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AllPaymentMethodResponse {
+    private long total;
+    private int page;
+    private int per_page;
     private List<PaymentMethodResponse> paymentMethods;
 }
